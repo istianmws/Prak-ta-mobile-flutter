@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:praktpm2/home.dart';
 import 'package:praktpm2/home1.dart';
 
+import 'login.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage1(),
+
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
     );
   }
 }
