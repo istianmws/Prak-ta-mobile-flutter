@@ -5,6 +5,8 @@ final BaseNetwork _baseNetwork = BaseNetwork();
 
 class ApiDataSource {
   List<UserData> result = [];
+  List<ProductData> result1 = [];
+
   Future<List<UserData>> getData({String? query }) async {
     final jsonResponse = await _baseNetwork.get('');
 
@@ -16,5 +18,11 @@ class ApiDataSource {
     }
     return result;
 
+  }
+  Future<List<ProductData>> getData1() async {
+    final jsonResponse = await _baseNetwork.get1('');
+    final List<dynamic> data = jsonResponse;
+    result1 = data.map((json) => ProductData.fromJson(json)).toList();
+    return result1;
   }
 }

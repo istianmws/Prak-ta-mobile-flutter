@@ -3,6 +3,8 @@ import 'package:praktpm2/Services/datasource.dart';
 import 'package:praktpm2/Services/model.dart';
 import 'package:praktpm2/searchuser.dart';
 import 'userdetail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage1 extends StatefulWidget {
   @override
@@ -14,11 +16,25 @@ class _HomePage1State extends State<HomePage1> {
   List<UserData> dataUsers = [];
   List<bool> isLikedList = [];
   List<UserData> following = [];
+  late SharedPreferences _prefs;
+
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    _initPrefs();
+  }
+
+  Future<void> _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+
+    List<String>? followingIds = _prefs.getStringList('following');
+    if (followingIds != null) {
+      setState(() {
+        following = dataUsers.where((user) => followingIds.contains(user.id)).toList();
+      });
+    }
   }
 
   Future<void> fetchData() async {
@@ -93,12 +109,17 @@ class _HomePage1State extends State<HomePage1> {
     bool isUserFollow = following.contains(user);
 
     if (!isUserFollow) {
-      // Tambahkan produk ke dalam cart
-      following.add(user);
+      // Tambahkan pengguna ke dalam daftar yang di-like
+      setState(() {
+        following.add(user);
+      });
 
-      // Tampilkan snackbar untuk memberi tahu pengguna bahwa produk berhasil ditambahkan ke dalam cart
+      // Simpan daftar yang di-like ke dalam shared preferences
+      _saveFollowingToPrefs();
+
+      // Tampilkan snackbar untuk memberi tahu pengguna bahwa pengguna berhasil di-like
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account ini berhasil anda follow')),
+        SnackBar(content: Text('Pengguna ini berhasil di-like')),
       );
     } else {
       // Tampilkan snackbar jika produk sudah ada di cart
@@ -106,5 +127,10 @@ class _HomePage1State extends State<HomePage1> {
         SnackBar(content: Text('Account ini sudah anda follow')),
       );
     }
+  }
+
+  Future<void> _saveFollowingToPrefs() async {
+    List<String> followingIds = following.map((user) => user.id).toList();
+    await _prefs.setStringList('following', followingIds);
   }
 }
