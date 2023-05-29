@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:praktpm2/Product/detailproduct.dart';
 import 'package:praktpm2/Services/datasource.dart';
 import 'package:praktpm2/Services/model.dart';
 
-import 'detailproduct.dart';
 
 class ListProduct extends StatelessWidget {
   final ApiDataSource _dataSource = ApiDataSource();

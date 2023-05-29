@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:praktpm2/Product/cart.dart';
 import 'package:praktpm2/Services/model.dart';
 
-import 'following.dart';
+class DetailProduct extends StatelessWidget {
+  final ProductData product;
+  final List<ProductData> cart;
 
-class UserDetail extends StatelessWidget {
-  final UserData user;
-  final List<UserData> following;
-  const UserDetail({required this.user, required this.following});
+  const DetailProduct({required this.product, required this.cart});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(user.name + ' desc'),
+        title: Text(product.title),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.network(
-              user.avatar,
+              product.image,
               height: 200,
             ),
             Padding(
@@ -28,36 +29,36 @@ class UserDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user.name,
+                    product.title,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    user.address,
+                    product.description,
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'follower: ${user.like}',
+                    'Price: \$${product.price}',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'likes: ${user.address}',
+                    'Rating: ${product.rating['rate']} (${product.rating['count']} reviews)',
                     style: TextStyle(fontSize: 16),
                   ),
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.thumb_up_rounded),
-                        onPressed: () => _addToFollowing(context),
+                        icon: Icon(Icons.add_shopping_cart),
+                        onPressed: () => _addToCart(context),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FollowingPage(following: following, user: user,),
+                              builder: (context) => CartPage(cart: cart, product: product,),
                             ),
                           );
                         },
@@ -76,23 +77,26 @@ class UserDetail extends StatelessWidget {
     );
   }
 
-  void _addToFollowing(BuildContext context) {
+  void _addToCart(BuildContext context) {
     // Cek apakah produk sudah ada di cart
-    bool isUserFollow = following.contains(user);
+    bool isProductInCart = cart.contains(product);
 
-    if (!isUserFollow) {
+    if (!isProductInCart) {
       // Tambahkan produk ke dalam cart
-      following.add(user);
+      cart.add(product);
 
       // Tampilkan snackbar untuk memberi tahu pengguna bahwa produk berhasil ditambahkan ke dalam cart
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account ini berhasil anda follow')),
+        SnackBar(content: Text('Produk berhasil ditambahkan ke dalam cart')),
       );
     } else {
       // Tampilkan snackbar jika produk sudah ada di cart
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account ini sudah anda follow')),
+        SnackBar(content: Text('Produk sudah ada di dalam cart')),
       );
     }
   }
+
 }
+
+

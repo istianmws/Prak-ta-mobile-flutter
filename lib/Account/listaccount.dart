@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:praktpm2/Account/searchuser.dart';
 import 'package:praktpm2/Services/datasource.dart';
 import 'package:praktpm2/Services/model.dart';
-import 'package:praktpm2/searchuser.dart';
+
 import 'userdetail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

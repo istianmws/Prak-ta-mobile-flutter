@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:praktpm2/Account/listaccount.dart';
 import 'package:praktpm2/about.dart';
-import 'package:praktpm2/listaccount.dart';
-import 'package:praktpm2/listproduct.dart';
+import 'package:praktpm2/Product/listproduct.dart';
 import 'package:praktpm2/login.dart';
 
 class ContainerPage extends StatefulWidget {
